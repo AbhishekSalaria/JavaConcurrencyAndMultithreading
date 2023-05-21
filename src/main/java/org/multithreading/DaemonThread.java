@@ -7,7 +7,7 @@ public class DaemonThread implements Runnable{
     public void run() {
         while (true) {
             try {
-                Thread.sleep(20);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

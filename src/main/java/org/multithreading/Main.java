@@ -45,6 +45,30 @@ public class Main {
             }
         });
 
+        ProducerConsumerSingleLock newProcess = new ProducerConsumerSingleLock();
+
+        Thread t10 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    newProcess.producer();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        Thread t11 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    newProcess.consumer();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         t1.start();
         t2.start();
         t3.start();
@@ -54,6 +78,8 @@ public class Main {
         t7.start();
         t8.start();
         t9.start();
+        t10.start();
+        t11.start();
         // Wait for these threads to finish before executing println line: join().
         try {
             t8.join();
@@ -63,4 +89,4 @@ public class Main {
         }
         System.out.println("Finished with Execution...");
     }
-    }
+}
