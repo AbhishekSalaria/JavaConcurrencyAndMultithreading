@@ -13,12 +13,37 @@ public class Main {
                 }
             }
         });
+
         Thread t4 = new Thread(new DaemonThread());
         t4.setDaemon(true);
 
         Thread t5 = new Thread(new SynchronizedKeyword());
         Thread t6 = new Thread(new SynchronizedBlock());
         Thread t7 = new Thread(new SynchronizedLockingIssueResolution());
+
+        LockandNotify process = new LockandNotify();
+
+        Thread t8 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    process.produce();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        Thread t9 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    process.consume();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
         t1.start();
         t2.start();
@@ -27,11 +52,12 @@ public class Main {
         t5.start();
         t6.start();
         t7.start();
+        t8.start();
+        t9.start();
         // Wait for these threads to finish before executing println line: join().
         try {
-            t1.join();
-            t2.join();
-            t3.join();
+            t8.join();
+            t9.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
